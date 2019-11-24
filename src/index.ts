@@ -1,14 +1,17 @@
 import axios from 'axios';
 import { IUser } from './types';
 import { UserController } from './user';
+import { PostController } from './post';
 
-export const userController = new UserController(axios);
-export const postController = new PostController(axios);
+const userController = new UserController(axios);
+const postController = new PostController(axios);
 
-const renderItems = (items: IUser[]) => {
+const renderPostsForUser = (user: IUser) => {
     console.log('rendering items...');
-    items.forEach((item: any) => {
-        $('#item-list').append(userController.renderItemForList(item));
+    postController.getPostsForUserId(user.id).then(posts => {
+        posts.forEach((post: any) => {
+            $('#item-list').append(postController.renderPostForList(post));
+        });
     });
 };
 
@@ -16,10 +19,7 @@ export const run = () => {
     console.log('run from library');
 
     $(document).ready(() => {
-        console.log('getting items...');
-        userController.getAllItems().then((items: IUser[]) => {
-            renderItems(items);
-        });
+        console.log('loading...');
     });
 };
 
@@ -30,19 +30,29 @@ export const doSelect = () => {
     $('#search-button').addClass('d-none');
     $('#spinner').removeClass('d-none');
 
-    userController.getItems(searchText).then((items: any) => {
-        $('#search-button').removeClass('d-none');
-        $('#spinner').addClass('d-none');
-        console.log(`Found ${items.length} items`);
+    userController.getUsers(searchText).then((users: IUser[]) => {
+        console.log(`Found ${users.length} items`);
+        let user = null;
+        if (users) {
+            user = users[0];
+        }
+
         // Clear list
         const list = $('#item-list')[0];
         let child = list.lastElementChild;
+
         while (child) {
             console.log(`Removing ${child}`);
             list.removeChild(child);
             child = list.lastElementChild;
         }
+
         // Add items
-        renderItems(items);
+        if (user) {
+            renderPostsForUser(user);
+        }
+
+        $('#search-button').removeClass('d-none');
+        $('#spinner').addClass('d-none');
     });
 };

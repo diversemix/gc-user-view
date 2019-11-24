@@ -1,5 +1,5 @@
 export interface IDataSource {
-    get(url:string): Promise<any>
+    get(url: string): Promise<any>;
 }
 
 export interface IUser {

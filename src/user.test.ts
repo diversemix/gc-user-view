@@ -13,16 +13,16 @@ const testUser: IUser = {
 const mockDataSource: IDataSource = {
     get(url: string) {
         return Promise.resolve({
-            data: [ testUser, testUser, testUser ]
+            data: [testUser, testUser, testUser],
         });
-    }
-}
+    },
+};
 
 describe('User', () => {
-    let controller : UserController = new UserController(mockDataSource);
+    const controller: UserController = new UserController(mockDataSource);
 
     it('should get all users', () => {
-         controller.getAllUsers().then( result => {
+        controller.getAllUsers().then(result => {
             expect(result).not.toBeNull();
             expect(result).toHaveLength(3);
         });
