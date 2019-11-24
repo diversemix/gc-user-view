@@ -7,7 +7,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src'),
 
   output: {
-    filename: 'itemController.js',
+    filename: 'userController.js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'var',
     library: 'EntryPoint'

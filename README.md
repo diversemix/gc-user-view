@@ -3,6 +3,14 @@ Based on microsoft/TypeScript-Babel-Starter + webpack + bootstrap
 
 ----
 
+# Usage
+
+Run the following to spin up the docker container with the application in :
+
+```{bash}
+make clean ; make
+```
+
 # Aims
 
 - Get posts for a user
